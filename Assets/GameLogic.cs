@@ -31,7 +31,7 @@ public class GameLogic : MonoBehaviour {
 
     IEnumerator NextWave()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(.0f);
 
         Generate();
     }
@@ -40,7 +40,19 @@ public class GameLogic : MonoBehaviour {
     {
         humans.Clear();
 
+        foreach (Transform spotTransform in GameObject.Find("/Crowd").transform)
+        {
+            GameObject spot = spotTransform.gameObject;
+            Spot spotComponent = spot.GetComponent<Spot>();
+
+            if (spotComponent.assignedHuman)
+            {
+                humans.Add(spotComponent.assignedHuman);
+            }
+        }
+
         currentSacrifice = CreateSacrificeRequest(humans);
+
         GameObject.Find("/God").GetComponent<GodBehavior>().RequestSacrifice();
 
         IconFinder finder = GetComponent<IconFinder>();
@@ -92,7 +104,7 @@ public class GameLogic : MonoBehaviour {
         rightSolutionIcon.GetComponent<SpriteRenderer>().sortingLayerName = rightPillar.GetComponent<SpriteRenderer>().sortingLayerName;
         rightSolutionIcon.transform.localPosition = new Vector2(0, 20f);
 
-        foreach(Transform spotTransform in GameObject.Find("/Crowd").transform) {
+        foreach (Transform spotTransform in GameObject.Find("/Crowd").transform) {
             GameObject spot = spotTransform.gameObject;
             Spot spotComponent = spot.GetComponent<Spot>();
 
@@ -100,22 +112,29 @@ public class GameLogic : MonoBehaviour {
             {
                 GameObject newHuman = SpawnRandomHuman(spotTransform.position);
                 humans.Add(newHuman);
-                while (!IsSolvable(humans, currentSacrifice))
+                int count = 0;
+                while (!IsSolvable(humans, currentSacrifice) && count < 1000)
                 {
                     humans.Remove(newHuman);
                     UnityEngine.Object.Destroy(newHuman);
                     newHuman = SpawnRandomHuman(spotTransform.position);
                     humans.Add(newHuman);
+                    count++;
+                }
+
+                if(count == 1000)
+                {
+                    Debug.LogError("Max attempt to generate a dude for request " + currentSacrifice.requestedObject + " and forbid " + currentSacrifice.forbiddenObject);
+                    humans.Remove(newHuman);
+                    UnityEngine.Object.Destroy(newHuman);
                 }
 
                 spotComponent.assignedHuman = newHuman;
-            } else {
-                humans.Add(spotComponent.assignedHuman);
             }
         }
     }
 
-    SacrificeRequest CreateSacrificeRequest(List<GameObject> humans)
+    SacrificeRequest CreateSacrificeRequest(List<GameObject> humans, int count = 0)
     {
         string[] possibleRequests = new[] { "L1", "L2", "R1", "R2", "H1", "H2" };
 
@@ -134,7 +153,13 @@ public class GameLogic : MonoBehaviour {
             return sacrifice;
         }
 
-        return CreateSacrificeRequest(humans);
+        if (count == 1000)
+        {
+            Debug.LogError("Could not create a valid sacrifice query");
+            return null;
+        }
+
+        return CreateSacrificeRequest(humans, count + 1); //recursion
     }
 
     List<string> GetPossibleSolutions(List<GameObject> humans, SacrificeRequest request)
@@ -247,7 +272,6 @@ public class GameLogic : MonoBehaviour {
     }
 
     GameObject SpawnHuman(Vector2 position, int leftHand, int rightHand, int head) {
-        GameObject crowd = GameObject.Find("/Crowd");
         GameObject music = GameObject.Find("/Sound/Music");
 
         GameObject humanInstance = GameObject.Instantiate(human);
