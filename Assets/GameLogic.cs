@@ -37,25 +37,44 @@ public class GameLogic : MonoBehaviour {
 
         humans.Clear();
 
-        var s = CreateSacrificeRequest(humans);
-        Debug.Log(s.forbiddenObject + " " + s.requestedObject);
+        SacrificeRequest sacrifice = CreateSacrificeRequest(humans);
+        GameObject.Find("/God").GetComponent<GodBehavior>().RequestSacrifice();
+
+        IconFinder finder = GetComponent<IconFinder>();
+        GameObject requestedIcon = UnityEngine.Object.Instantiate(finder.GetIcon(sacrifice.requestedObject));
+        GameObject forbiddenIcon = UnityEngine.Object.Instantiate(finder.GetIcon(sacrifice.forbiddenObject));
+
+        GameObject requestedSlot = GameObject.Find("/Bubble/RequestedSlot");
+        GameObject forbiddenSlot = GameObject.Find("/Bubble/ForbiddenSlot");
+
+        foreach (Transform child in requestedSlot.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        foreach (Transform child in forbiddenSlot.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        requestedIcon.transform.parent = requestedSlot.transform;
+        requestedIcon.transform.localPosition = Vector2.zero;
+        forbiddenIcon.transform.parent = forbiddenSlot.transform;
+        forbiddenIcon.transform.localPosition = Vector2.zero;
 
         for (int i = 0; i <= 8; i++)
         {
-            for (int j = 0; j < 2; j++)
+
+            GameObject newHuman = SpawnRandomHuman(i, 0);
+            humans.Add(newHuman);
+            if (!IsSolvable(humans, sacrifice))
             {
-                GameObject newHuman = SpawnRandomHuman(i, j);
-                humans.Add(newHuman);
-                if (!IsSolvable(humans, "R1", "H1", new[] { "L1", "L2" }))
-                {
-                    humans.Remove(newHuman);
-                    UnityEngine.Object.Destroy(newHuman);
-                    j--;
-                }
+                humans.Remove(newHuman);
+                UnityEngine.Object.Destroy(newHuman);
+                i--;
             }
         }
     }
-
 
     SacrificeRequest CreateSacrificeRequest(List<GameObject> humans)
     {
@@ -69,24 +88,26 @@ public class GameLogic : MonoBehaviour {
 
         string[] solutions = Array.FindAll(possibleRequests, r => r[0] != request[0] && r[0] != forbid[0]);
 
-        if (humans.Count == 0 || !IsSolvable(humans, request, forbid, solutions))
+        SacrificeRequest sacrifice = new SacrificeRequest(request, forbid, solutions);
+
+        if (humans.Count == 0 || !IsSolvable(humans, sacrifice))
         {
-            return new SacrificeRequest(request, forbid);
+            return sacrifice;
         }
 
         return CreateSacrificeRequest(humans);
     }
 
-    bool IsSolvable(List<GameObject> humans, string required, string forbidden, string[] availableSolutions)
+    bool IsSolvable(List<GameObject> humans, SacrificeRequest request)
     {
-        List<string> solutions = new List<string>(availableSolutions);
+        List<string> solutions = new List<string>(request.solutions);
         List<GameObject> possibleHumans = new List<GameObject>();
 
         foreach (GameObject h in humans)
         {
             Human human = h.GetComponent<Human>();
 
-            if (human.rightHandId == forbidden || human.leftHandId == forbidden || human.headId == forbidden)
+            if (human.rightHandId == request.forbiddenObject || human.leftHandId == request.forbiddenObject || human.headId == request.forbiddenObject)
             {
                 int rightPos = solutions.IndexOf(human.rightHandId);
                 if (rightPos != -1)
@@ -113,7 +134,7 @@ public class GameLogic : MonoBehaviour {
         {
             Human human = h.GetComponent<Human>();
 
-            if (human.rightHandId == required || human.leftHandId == required || human.headId == required)
+            if (human.rightHandId == request.requestedObject || human.leftHandId == request.requestedObject || human.headId == request.requestedObject)
             {
                 return true;
             }

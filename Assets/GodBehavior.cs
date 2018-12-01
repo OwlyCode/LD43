@@ -19,13 +19,11 @@ public class GodBehavior : MonoBehaviour {
 
         leftEyeGlow = GameObject.Find("God/LeftEye/Glow");
         rightEyeGlow = GameObject.Find("God/RightEye/Glow");
-        bubble = GameObject.Find("God/Bubble");
+        bubble = GameObject.Find("/Bubble");
         bubble.SetActive(false);
 
         leftEyeGlow.transform.localScale = Vector2.zero;
         rightEyeGlow.transform.localScale = Vector2.zero;
-
-        RequestSacrifice();
     }
 
     void Update()
@@ -34,6 +32,8 @@ public class GodBehavior : MonoBehaviour {
 
         leftEyeGlow.transform.localScale = new Vector2(eyeGlowSize, eyeGlowSize);
         rightEyeGlow.transform.localScale = new Vector2(eyeGlowSize, eyeGlowSize);
+
+        transform.localScale = new Vector2(.3f + anger, .3f + anger);
 
         if (waiting)
         {
@@ -49,7 +49,7 @@ public class GodBehavior : MonoBehaviour {
         }
     }
 
-    void RequestSacrifice()
+    public void RequestSacrifice()
     {
         waiting = true;
         timeWaited = 0f;
