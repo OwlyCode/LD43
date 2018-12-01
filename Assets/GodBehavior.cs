@@ -42,6 +42,7 @@ public class GodBehavior : MonoBehaviour {
             if (timeWaited > patience)
             {
                 Anger();
+                GameObject.Find("/Global").GetComponent<GameLogic>().TriggerNextWave();
             }
         }
     }
@@ -53,7 +54,7 @@ public class GodBehavior : MonoBehaviour {
         bubble.SetActive(true);
     }
 
-    void stopWaiting()
+    void StopWaiting()
     {
         timeWaited = 0f;
         waiting = false;
@@ -76,13 +77,13 @@ public class GodBehavior : MonoBehaviour {
     public void Anger()
     {
         this.anger += 0.1f;
-        stopWaiting();
+        StopWaiting();
     }
 
     public void Soften()
     {
         this.anger -= 0.1f;
-        stopWaiting();
+        StopWaiting();
     }
 
     void StartShaking()

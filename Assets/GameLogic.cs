@@ -21,14 +21,19 @@ public class GameLogic : MonoBehaviour {
     private void Start()
     {
         humans = new List<GameObject>();
+        StartCoroutine(NextWave());
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown("space"))
-        {
-            Generate();
-        }
+
+    }
+
+    IEnumerator NextWave()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        Generate();
     }
 
     void Generate()
@@ -163,13 +168,6 @@ public class GameLogic : MonoBehaviour {
             }
         }
 
-
-        Debug.Log("--- after forbid ---");
-        foreach (string s in solutions)
-        {
-            Debug.Log(s);
-        }
-
         List<string> possibleSolutions = new List<string>();
 
         foreach (GameObject h in possibleHumans)
@@ -187,12 +185,6 @@ public class GameLogic : MonoBehaviour {
                     possibleSolutions.Add(s);
                 }
             }
-        }
-
-        Debug.Log("--- after request ---");
-        foreach (string s in possibleSolutions)
-        {
-            Debug.Log(s);
         }
 
         return possibleSolutions;
@@ -219,6 +211,14 @@ public class GameLogic : MonoBehaviour {
                 lightningInstance.GetComponent<Lightning>().target = h;
             }
         }
+
+        GameObject.Find("Sound/Thunder").GetComponent<AudioSource>().Play();
+        TriggerNextWave();
+    }
+
+    public void TriggerNextWave()
+    {
+        StartCoroutine(NextWave());
     }
 
     public bool IsSolved(List<GameObject> humans, SacrificeRequest request, string proposedSolution)
@@ -239,22 +239,12 @@ public class GameLogic : MonoBehaviour {
         int rightHand = UnityEngine.Random.Range(1, 3);
         int head = UnityEngine.Random.Range(1, 3);
 
-        if (leftHand + rightHand + head == 0)
-        {
-            return SpawnRandomHuman(x, y);
-        }
-
-        /*if (leftHand > 0 && rightHand > 0 && head > 0)
-        {
-            return SpawnRandomHuman(x, y);
-        }*/
-
         return SpawnHuman(new Vector2(-98 + x * 25, -30 + y * 43), leftHand, rightHand, head);
     }
 
     GameObject SpawnHuman(Vector2 position, int leftHand, int rightHand, int head) {
         GameObject crowd = GameObject.Find("/Crowd");
-        GameObject music = GameObject.Find("/loop");
+        GameObject music = GameObject.Find("/Sound/Music");
 
         GameObject spotInstance = GameObject.Instantiate(spot);
         GameObject humanInstance = GameObject.Instantiate(human);

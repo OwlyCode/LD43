@@ -14,6 +14,7 @@ public class Lightning : MonoBehaviour {
     IEnumerator Strike()
     {
         float add = 0.2f;
+        Object.Destroy(target);
 
         for (int i=0; i < 30; i++)
         {
@@ -24,6 +25,5 @@ public class Lightning : MonoBehaviour {
         }
 
         Object.Destroy(gameObject);
-        Object.Destroy(target);
     }
 }
