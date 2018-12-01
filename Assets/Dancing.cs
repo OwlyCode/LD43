@@ -18,6 +18,10 @@ public class Dancing : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        if(!beatSource) {
+            return;
+        }
+
         AudioSource audio = beatSource.GetComponent<AudioSource>();
 
         if (audio.time < lastTime)
