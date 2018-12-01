@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,32 +11,75 @@ public class GameLogic : MonoBehaviour {
     public GameObject ironShield;
     public GameObject goldenShield;
     public GameObject human;
+    public GameObject spot;
 
     List<GameObject> humans;
 
     private void Start()
     {
         humans = new List<GameObject>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            Generate();
+        }
+    }
+
+    void Generate()
+    {
+        foreach(GameObject h in humans)
+        {
+            UnityEngine.Object.Destroy(h);
+        }
+
+        humans.Clear();
+
+        var s = CreateSacrificeRequest(humans);
+        Debug.Log(s.forbiddenObject + " " + s.requestedObject);
 
         for (int i = 0; i <= 8; i++)
         {
-            for (int j=0; j < 2; j++)
+            for (int j = 0; j < 2; j++)
             {
                 GameObject newHuman = SpawnRandomHuman(i, j);
                 humans.Add(newHuman);
-                if (!isSolvable(humans, "R1", "H1"))
+                if (!IsSolvable(humans, "R1", "H1", new[] { "L1", "L2" }))
                 {
                     humans.Remove(newHuman);
-                    Object.Destroy(newHuman);
+                    UnityEngine.Object.Destroy(newHuman);
                     j--;
                 }
             }
         }
     }
 
-    bool isSolvable(List<GameObject> humans, string required, string forbidden)
+
+    SacrificeRequest CreateSacrificeRequest(List<GameObject> humans)
     {
-        List<string> solutions = new List<string>(new[] { "L1", "L2", "R1", "R2", "H1", "H2"});
+        string[] possibleRequests = new[] { "L1", "L2", "R1", "R2", "H1", "H2" };
+
+        string request = possibleRequests[UnityEngine.Random.Range(0, possibleRequests.Length)];
+
+        string[] possibleForbid = Array.FindAll(possibleRequests, r => r[0] != request[0]);
+
+        string forbid = possibleForbid[UnityEngine.Random.Range(0, possibleForbid.Length)];
+
+        string[] solutions = Array.FindAll(possibleRequests, r => r[0] != request[0] && r[0] != forbid[0]);
+
+        if (humans.Count == 0 || !IsSolvable(humans, request, forbid, solutions))
+        {
+            return new SacrificeRequest(request, forbid);
+        }
+
+        return CreateSacrificeRequest(humans);
+    }
+
+    bool IsSolvable(List<GameObject> humans, string required, string forbidden, string[] availableSolutions)
+    {
+        List<string> solutions = new List<string>(availableSolutions);
         List<GameObject> possibleHumans = new List<GameObject>();
 
         foreach (GameObject h in humans)
@@ -60,16 +104,17 @@ public class GameLogic : MonoBehaviour {
             }
         }
 
+        if (solutions.Count == 0 )
+        {
+            return false;
+        }
+
         foreach (GameObject h in possibleHumans)
         {
             Human human = h.GetComponent<Human>();
 
             if (human.rightHandId == required || human.leftHandId == required || human.headId == required)
             {
-                foreach(string s in solutions)
-                {
-                    Debug.Log(s);
-                }
                 return true;
             }
         }
@@ -79,13 +124,28 @@ public class GameLogic : MonoBehaviour {
 
     GameObject SpawnRandomHuman(int x, int y)
     {
-        return SpawnHuman(new Vector2(-100 + x * 25, -50 + y * 43), Random.Range(0, 3), Random.Range(0, 3), Random.Range(0, 3));
+        int leftHand = UnityEngine.Random.Range(0, 3);
+        int rightHand = UnityEngine.Random.Range(0, 3);
+        int head = UnityEngine.Random.Range(0, 3);
+
+        if (leftHand + rightHand + head == 0)
+        {
+            return SpawnRandomHuman(x, y);
+        }
+
+        if (leftHand > 0 && rightHand > 0 && head > 0)
+        {
+            return SpawnRandomHuman(x, y);
+        }
+
+        return SpawnHuman(new Vector2(-98 + x * 25, -50 + y * 43), leftHand, rightHand, head);
     }
 
     GameObject SpawnHuman(Vector2 position, int leftHand, int rightHand, int head) {
         GameObject crowd = GameObject.Find("/Crowd");
         GameObject music = GameObject.Find("/loop");
 
+        GameObject spotInstance = GameObject.Instantiate(spot);
         GameObject humanInstance = GameObject.Instantiate(human);
         Human humanComponent = humanInstance.GetComponent<Human>();
 
@@ -121,8 +181,13 @@ public class GameLogic : MonoBehaviour {
         humanComponent.headId = "H" + head;
 
         humanInstance.GetComponent<Dancing>().beatSource = music;
-        humanInstance.transform.parent = crowd.transform;
-        humanInstance.transform.localPosition = position;
+        humanInstance.transform.position = new Vector2(position.x, -160 + position.y);
+
+        spotInstance.transform.parent = crowd.transform;
+        spotInstance.transform.localPosition = position;
+
+        spotInstance.transform.parent = spotInstance.transform;
+        spotInstance.GetComponent<Spot>().assignedHuman = humanInstance;
 
         return humanInstance;
 	}

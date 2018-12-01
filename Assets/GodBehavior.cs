@@ -12,13 +12,16 @@ public class GodBehavior : MonoBehaviour {
 
     GameObject leftEyeGlow;
     GameObject rightEyeGlow;
+    GameObject bubble;
 
     void Start () {
         StartShaking();
 
         leftEyeGlow = GameObject.Find("God/LeftEye/Glow");
         rightEyeGlow = GameObject.Find("God/RightEye/Glow");
- 
+        bubble = GameObject.Find("God/Bubble");
+        bubble.SetActive(false);
+
         leftEyeGlow.transform.localScale = Vector2.zero;
         rightEyeGlow.transform.localScale = Vector2.zero;
 
@@ -41,6 +44,7 @@ public class GodBehavior : MonoBehaviour {
                 timeWaited = 0f;
                 waiting = false;
                 anger += 0.1f;
+                bubble.SetActive(false);
             }
         }
     }
@@ -49,6 +53,7 @@ public class GodBehavior : MonoBehaviour {
     {
         waiting = true;
         timeWaited = 0f;
+        bubble.SetActive(true);
     }
 
     void StartShaking()
