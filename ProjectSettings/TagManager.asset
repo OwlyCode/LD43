@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 2088935841
+    locked: 0
+  - name: God
+    uniqueID: 2680322703
+    locked: 0
+  - name: Buildings
+    uniqueID: 441703595
+    locked: 0
+  - name: Humans
+    uniqueID: 820359681
+    locked: 0
