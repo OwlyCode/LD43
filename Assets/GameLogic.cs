@@ -30,7 +30,7 @@ public class GameLogic : MonoBehaviour {
 
     void Generate()
     {
-        foreach(GameObject h in humans)
+        foreach (GameObject h in humans)
         {
             UnityEngine.Object.Destroy(h);
         }
@@ -62,7 +62,34 @@ public class GameLogic : MonoBehaviour {
         forbiddenIcon.transform.parent = forbiddenSlot.transform;
         forbiddenIcon.transform.localPosition = Vector2.zero;
 
-        for (int i = 0; i <= 8; i++)
+        GameObject leftPillar = GameObject.Find("/Temple/LeftPillar");
+        GameObject rightPillar = GameObject.Find("/Temple/RightPillar");
+
+        foreach (Transform child in leftPillar.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        foreach (Transform child in rightPillar.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        leftPillar.GetComponent<Pillar>().currentSolution = sacrifice.solutions[0];
+        rightPillar.GetComponent<Pillar>().currentSolution = sacrifice.solutions[1];
+
+        GameObject leftSolutionIcon = UnityEngine.Object.Instantiate(finder.GetIcon(sacrifice.solutions[0]));
+        GameObject rightSolutionIcon = UnityEngine.Object.Instantiate(finder.GetIcon(sacrifice.solutions[1]));
+
+        leftSolutionIcon.transform.parent = leftPillar.transform;
+        rightSolutionIcon.transform.parent = rightPillar.transform;
+
+        leftSolutionIcon.GetComponent<SpriteRenderer>().sortingLayerName = leftPillar.GetComponent<SpriteRenderer>().sortingLayerName;
+        leftSolutionIcon.transform.localPosition = new Vector2(0, 20f);
+        rightSolutionIcon.GetComponent<SpriteRenderer>().sortingLayerName = rightPillar.GetComponent<SpriteRenderer>().sortingLayerName;
+        rightSolutionIcon.transform.localPosition = new Vector2(0, 20f);
+
+        for (int i = 0; i < 8; i++)
         {
 
             GameObject newHuman = SpawnRandomHuman(i, 0);
@@ -90,7 +117,7 @@ public class GameLogic : MonoBehaviour {
 
         SacrificeRequest sacrifice = new SacrificeRequest(request, forbid, solutions);
 
-        if (humans.Count == 0 || !IsSolvable(humans, sacrifice))
+        if (humans.Count == 0 || IsSolvable(humans, sacrifice))
         {
             return sacrifice;
         }
@@ -159,7 +186,7 @@ public class GameLogic : MonoBehaviour {
             return SpawnRandomHuman(x, y);
         }
 
-        return SpawnHuman(new Vector2(-98 + x * 25, -50 + y * 43), leftHand, rightHand, head);
+        return SpawnHuman(new Vector2(-98 + x * 25, -30 + y * 43), leftHand, rightHand, head);
     }
 
     GameObject SpawnHuman(Vector2 position, int leftHand, int rightHand, int head) {

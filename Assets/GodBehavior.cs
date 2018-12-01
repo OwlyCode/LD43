@@ -45,6 +45,19 @@ public class GodBehavior : MonoBehaviour {
                 waiting = false;
                 anger += 0.1f;
                 bubble.SetActive(false);
+
+                GameObject leftPillar = GameObject.Find("/Temple/LeftPillar");
+                GameObject rightPillar = GameObject.Find("/Temple/RightPillar");
+
+                foreach (Transform child in leftPillar.transform)
+                {
+                    GameObject.Destroy(child.gameObject);
+                }
+
+                foreach (Transform child in rightPillar.transform)
+                {
+                    GameObject.Destroy(child.gameObject);
+                }
             }
         }
     }
@@ -65,12 +78,12 @@ public class GodBehavior : MonoBehaviour {
     {
         while (true)
         {
-            if (!waiting)
+            if (waiting)
             {
                 transform.rotation = Quaternion.identity;
-                transform.Rotate(0f, 0f, anger * angerShakingRatio);
+                transform.Rotate(0f, 0f, (timeWaited/patience) * angerShakingRatio);
                 yield return new WaitForSeconds(0.05f);
-                transform.Rotate(0f, 0f, -anger * angerShakingRatio * 2);
+                transform.Rotate(0f, 0f, -(timeWaited / patience) * angerShakingRatio * 2);
                 yield return new WaitForSeconds(0.05f);
             } else {
                 transform.rotation = Quaternion.identity;
