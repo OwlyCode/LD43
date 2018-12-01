@@ -78,6 +78,16 @@ public class GodBehavior : MonoBehaviour {
     {
         this.anger += 0.1f;
         StopWaiting();
+
+        if (anger > 1.0f)
+        {
+            Debug.Log("LOST");
+        }
+
+        if (anger < 0.3f)
+        {
+            Debug.Log("WIN");
+        }
     }
 
     public void Soften()
