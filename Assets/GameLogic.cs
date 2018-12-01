@@ -38,11 +38,6 @@ public class GameLogic : MonoBehaviour {
 
     void Generate()
     {
-        foreach (GameObject h in humans)
-        {
-            UnityEngine.Object.Destroy(h);
-        }
-
         humans.Clear();
 
         currentSacrifice = CreateSacrificeRequest(humans);
@@ -97,16 +92,25 @@ public class GameLogic : MonoBehaviour {
         rightSolutionIcon.GetComponent<SpriteRenderer>().sortingLayerName = rightPillar.GetComponent<SpriteRenderer>().sortingLayerName;
         rightSolutionIcon.transform.localPosition = new Vector2(0, 20f);
 
-        for (int i = 0; i < 9; i++)
-        {
+        foreach(Transform spotTransform in GameObject.Find("/Crowd").transform) {
+            GameObject spot = spotTransform.gameObject;
+            Spot spotComponent = spot.GetComponent<Spot>();
 
-            GameObject newHuman = SpawnRandomHuman(i, 0);
-            humans.Add(newHuman);
-            if (!IsSolvable(humans, currentSacrifice))
+            if (!spotComponent.assignedHuman)
             {
-                humans.Remove(newHuman);
-                UnityEngine.Object.Destroy(newHuman);
-                i--;
+                GameObject newHuman = SpawnRandomHuman(spotTransform.position);
+                humans.Add(newHuman);
+                while (!IsSolvable(humans, currentSacrifice))
+                {
+                    humans.Remove(newHuman);
+                    UnityEngine.Object.Destroy(newHuman);
+                    newHuman = SpawnRandomHuman(spotTransform.position);
+                    humans.Add(newHuman);
+                }
+
+                spotComponent.assignedHuman = newHuman;
+            } else {
+                humans.Add(spotComponent.assignedHuman);
             }
         }
     }
@@ -233,20 +237,19 @@ public class GameLogic : MonoBehaviour {
         return solutions.Count != 0;
     }
 
-    GameObject SpawnRandomHuman(int x, int y)
+    GameObject SpawnRandomHuman(Vector2 position)
     {
         int leftHand = UnityEngine.Random.Range(1, 3);
         int rightHand = UnityEngine.Random.Range(1, 3);
         int head = UnityEngine.Random.Range(1, 3);
 
-        return SpawnHuman(new Vector2(-98 + x * 25, -30 + y * 43), leftHand, rightHand, head);
+        return SpawnHuman(position, leftHand, rightHand, head);
     }
 
     GameObject SpawnHuman(Vector2 position, int leftHand, int rightHand, int head) {
         GameObject crowd = GameObject.Find("/Crowd");
         GameObject music = GameObject.Find("/Sound/Music");
 
-        GameObject spotInstance = GameObject.Instantiate(spot);
         GameObject humanInstance = GameObject.Instantiate(human);
         Human humanComponent = humanInstance.GetComponent<Human>();
 
@@ -282,13 +285,7 @@ public class GameLogic : MonoBehaviour {
         humanComponent.headId = "H" + head;
 
         humanInstance.GetComponent<Dancing>().beatSource = music;
-        humanInstance.transform.position = new Vector2(position.x, -160 + position.y);
-
-        spotInstance.transform.parent = crowd.transform;
-        spotInstance.transform.localPosition = position;
-
-        spotInstance.transform.parent = spotInstance.transform;
-        spotInstance.GetComponent<Spot>().assignedHuman = humanInstance;
+        humanInstance.transform.position = new Vector2(position.x, -80 + position.y);
 
         return humanInstance;
 	}
