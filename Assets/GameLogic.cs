@@ -12,8 +12,11 @@ public class GameLogic : MonoBehaviour {
     public GameObject goldenShield;
     public GameObject human;
     public GameObject spot;
+    public GameObject lightning;
 
     List<GameObject> humans;
+
+    private SacrificeRequest currentSacrifice;
 
     private void Start()
     {
@@ -37,12 +40,12 @@ public class GameLogic : MonoBehaviour {
 
         humans.Clear();
 
-        SacrificeRequest sacrifice = CreateSacrificeRequest(humans);
+        currentSacrifice = CreateSacrificeRequest(humans);
         GameObject.Find("/God").GetComponent<GodBehavior>().RequestSacrifice();
 
         IconFinder finder = GetComponent<IconFinder>();
-        GameObject requestedIcon = UnityEngine.Object.Instantiate(finder.GetIcon(sacrifice.requestedObject));
-        GameObject forbiddenIcon = UnityEngine.Object.Instantiate(finder.GetIcon(sacrifice.forbiddenObject));
+        GameObject requestedIcon = UnityEngine.Object.Instantiate(finder.GetIcon(currentSacrifice.requestedObject));
+        GameObject forbiddenIcon = UnityEngine.Object.Instantiate(finder.GetIcon(currentSacrifice.forbiddenObject));
 
         GameObject requestedSlot = GameObject.Find("/Bubble/RequestedSlot");
         GameObject forbiddenSlot = GameObject.Find("/Bubble/ForbiddenSlot");
@@ -75,11 +78,11 @@ public class GameLogic : MonoBehaviour {
             GameObject.Destroy(child.gameObject);
         }
 
-        leftPillar.GetComponent<Pillar>().currentSolution = sacrifice.solutions[0];
-        rightPillar.GetComponent<Pillar>().currentSolution = sacrifice.solutions[1];
+        leftPillar.GetComponent<Pillar>().currentSolution = currentSacrifice.solutions[0];
+        rightPillar.GetComponent<Pillar>().currentSolution = currentSacrifice.solutions[1];
 
-        GameObject leftSolutionIcon = UnityEngine.Object.Instantiate(finder.GetIcon(sacrifice.solutions[0]));
-        GameObject rightSolutionIcon = UnityEngine.Object.Instantiate(finder.GetIcon(sacrifice.solutions[1]));
+        GameObject leftSolutionIcon = UnityEngine.Object.Instantiate(finder.GetIcon(currentSacrifice.solutions[0]));
+        GameObject rightSolutionIcon = UnityEngine.Object.Instantiate(finder.GetIcon(currentSacrifice.solutions[1]));
 
         leftSolutionIcon.transform.parent = leftPillar.transform;
         rightSolutionIcon.transform.parent = rightPillar.transform;
@@ -89,12 +92,12 @@ public class GameLogic : MonoBehaviour {
         rightSolutionIcon.GetComponent<SpriteRenderer>().sortingLayerName = rightPillar.GetComponent<SpriteRenderer>().sortingLayerName;
         rightSolutionIcon.transform.localPosition = new Vector2(0, 20f);
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 9; i++)
         {
 
             GameObject newHuman = SpawnRandomHuman(i, 0);
             humans.Add(newHuman);
-            if (!IsSolvable(humans, sacrifice))
+            if (!IsSolvable(humans, currentSacrifice))
             {
                 humans.Remove(newHuman);
                 UnityEngine.Object.Destroy(newHuman);
@@ -125,7 +128,7 @@ public class GameLogic : MonoBehaviour {
         return CreateSacrificeRequest(humans);
     }
 
-    bool IsSolvable(List<GameObject> humans, SacrificeRequest request)
+    List<string> GetPossibleSolutions(List<GameObject> humans, SacrificeRequest request)
     {
         List<string> solutions = new List<string>(request.solutions);
         List<GameObject> possibleHumans = new List<GameObject>();
@@ -138,53 +141,113 @@ public class GameLogic : MonoBehaviour {
             {
                 int rightPos = solutions.IndexOf(human.rightHandId);
                 if (rightPos != -1)
+                {
                     solutions.RemoveAt(rightPos);
+                }
 
                 int leftPos = solutions.IndexOf(human.leftHandId);
                 if (leftPos != -1)
+                {
                     solutions.RemoveAt(leftPos);
+                }
 
                 int headPos = solutions.IndexOf(human.headId);
                 if (headPos != -1)
+                {
                     solutions.RemoveAt(headPos);
-            } else {
+                }
+            }
+            else
+            {
                 possibleHumans.Add(h);
             }
         }
 
-        if (solutions.Count == 0 )
+
+        Debug.Log("--- after forbid ---");
+        foreach (string s in solutions)
         {
-            return false;
+            Debug.Log(s);
         }
+
+        List<string> possibleSolutions = new List<string>();
 
         foreach (GameObject h in possibleHumans)
         {
             Human human = h.GetComponent<Human>();
 
-            if (human.rightHandId == request.requestedObject || human.leftHandId == request.requestedObject || human.headId == request.requestedObject)
+            foreach (string s in solutions)
             {
-                return true;
+                if (
+                    (human.rightHandId == request.requestedObject || human.leftHandId == request.requestedObject || human.headId == request.requestedObject) &&
+                    (human.rightHandId == s || human.leftHandId == s || human.headId == s) &&
+                    possibleSolutions.IndexOf(s) == -1
+                )
+                {
+                    possibleSolutions.Add(s);
+                }
             }
         }
 
-        return false;
+        Debug.Log("--- after request ---");
+        foreach (string s in possibleSolutions)
+        {
+            Debug.Log(s);
+        }
+
+        return possibleSolutions;
+    }
+
+    public void Solve(string solution)
+    {
+        if (IsSolved(humans, currentSacrifice, solution))
+        {
+            GameObject.Find("/God").GetComponent<GodBehavior>().Soften();
+        } else
+        {
+            GameObject.Find("/God").GetComponent<GodBehavior>().Anger();
+        }
+
+        foreach (GameObject h in humans)
+        {
+            Human human = h.GetComponent<Human>();
+
+            if (human.HasAccessory(solution))
+            {
+                GameObject lightningInstance = Instantiate(lightning);
+                lightningInstance.transform.position = h.transform.position;
+                lightningInstance.GetComponent<Lightning>().target = h;
+            }
+        }
+    }
+
+    public bool IsSolved(List<GameObject> humans, SacrificeRequest request, string proposedSolution)
+    {
+        return GetPossibleSolutions(humans, request).IndexOf(proposedSolution) != -1;
+    }
+
+    bool IsSolvable(List<GameObject> humans, SacrificeRequest request)
+    {
+        List<string> solutions = GetPossibleSolutions(humans, request);
+
+        return solutions.Count != 0;
     }
 
     GameObject SpawnRandomHuman(int x, int y)
     {
-        int leftHand = UnityEngine.Random.Range(0, 3);
-        int rightHand = UnityEngine.Random.Range(0, 3);
-        int head = UnityEngine.Random.Range(0, 3);
+        int leftHand = UnityEngine.Random.Range(1, 3);
+        int rightHand = UnityEngine.Random.Range(1, 3);
+        int head = UnityEngine.Random.Range(1, 3);
 
         if (leftHand + rightHand + head == 0)
         {
             return SpawnRandomHuman(x, y);
         }
 
-        if (leftHand > 0 && rightHand > 0 && head > 0)
+        /*if (leftHand > 0 && rightHand > 0 && head > 0)
         {
             return SpawnRandomHuman(x, y);
-        }
+        }*/
 
         return SpawnHuman(new Vector2(-98 + x * 25, -30 + y * 43), leftHand, rightHand, head);
     }

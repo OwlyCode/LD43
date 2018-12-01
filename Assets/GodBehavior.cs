@@ -33,7 +33,7 @@ public class GodBehavior : MonoBehaviour {
         leftEyeGlow.transform.localScale = new Vector2(eyeGlowSize, eyeGlowSize);
         rightEyeGlow.transform.localScale = new Vector2(eyeGlowSize, eyeGlowSize);
 
-        transform.localScale = new Vector2(.3f + anger, .3f + anger);
+        transform.localScale = new Vector2(.5f + anger, .5f + anger);
 
         if (waiting)
         {
@@ -41,23 +41,7 @@ public class GodBehavior : MonoBehaviour {
 
             if (timeWaited > patience)
             {
-                timeWaited = 0f;
-                waiting = false;
-                anger += 0.1f;
-                bubble.SetActive(false);
-
-                GameObject leftPillar = GameObject.Find("/Temple/LeftPillar");
-                GameObject rightPillar = GameObject.Find("/Temple/RightPillar");
-
-                foreach (Transform child in leftPillar.transform)
-                {
-                    GameObject.Destroy(child.gameObject);
-                }
-
-                foreach (Transform child in rightPillar.transform)
-                {
-                    GameObject.Destroy(child.gameObject);
-                }
+                Anger();
             }
         }
     }
@@ -67,6 +51,38 @@ public class GodBehavior : MonoBehaviour {
         waiting = true;
         timeWaited = 0f;
         bubble.SetActive(true);
+    }
+
+    void stopWaiting()
+    {
+        timeWaited = 0f;
+        waiting = false;
+        bubble.SetActive(false);
+
+        GameObject leftPillar = GameObject.Find("/Temple/LeftPillar");
+        GameObject rightPillar = GameObject.Find("/Temple/RightPillar");
+
+        foreach (Transform child in leftPillar.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        foreach (Transform child in rightPillar.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+    }
+
+    public void Anger()
+    {
+        this.anger += 0.1f;
+        stopWaiting();
+    }
+
+    public void Soften()
+    {
+        this.anger -= 0.1f;
+        stopWaiting();
     }
 
     void StartShaking()

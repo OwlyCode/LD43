@@ -25,6 +25,7 @@ TextureImporter:
     21300040: spritesheet_20
     21300042: spritesheet_21
     21300044: spritesheet_22
+    21300046: spritesheet_23
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -122,7 +123,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 40
+        y: 229
         width: 96
         height: 71
       alignment: 0
@@ -142,7 +143,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 112
+        y: 301
         width: 17
         height: 28
       alignment: 9
@@ -162,7 +163,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 19
-        y: 112
+        y: 301
         width: 15
         height: 23
       alignment: 9
@@ -182,7 +183,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 42
-        y: 128
+        y: 317
         width: 7
         height: 10
       alignment: 0
@@ -202,7 +203,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 50
-        y: 128
+        y: 317
         width: 7
         height: 10
       alignment: 0
@@ -222,7 +223,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 66
-        y: 112
+        y: 301
         width: 9
         height: 31
       alignment: 0
@@ -242,7 +243,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 224
-        y: 128
+        y: 317
         width: 16
         height: 16
       alignment: 0
@@ -262,7 +263,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 42
-        y: 117
+        y: 306
         width: 11
         height: 10
       alignment: 0
@@ -282,7 +283,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 54
-        y: 117
+        y: 306
         width: 11
         height: 10
       alignment: 0
@@ -302,9 +303,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 97
-        y: 63
+        y: 252
         width: 115
-        height: 54
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -322,7 +323,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 80
-        y: 132
+        y: 321
         width: 15
         height: 9
       alignment: 0
@@ -342,7 +343,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 114
-        y: 48
+        y: 237
         width: 69
         height: 7
       alignment: 0
@@ -362,7 +363,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 189
         width: 281
         height: 37
       alignment: 0
@@ -382,7 +383,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 240
-        y: 128
+        y: 317
         width: 16
         height: 16
       alignment: 0
@@ -402,7 +403,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 219
-        y: 99
+        y: 288
         width: 26
         height: 26
       alignment: 0
@@ -422,7 +423,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 246
-        y: 99
+        y: 288
         width: 26
         height: 26
       alignment: 0
@@ -442,7 +443,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 227
-        y: 64
+        y: 253
         width: 40
         height: 21
       alignment: 0
@@ -462,7 +463,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 228
-        y: 42
+        y: 231
         width: 40
         height: 21
       alignment: 0
@@ -482,7 +483,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 34
-        y: 112
+        y: 301
         width: 3
         height: 30
       alignment: 0
@@ -502,7 +503,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 38
-        y: 112
+        y: 301
         width: 3
         height: 30
       alignment: 0
@@ -521,8 +522,8 @@ TextureImporter:
       name: spritesheet_20
       rect:
         serializedVersion: 2
-        x: 273
-        y: 66
+        x: 274
+        y: 255
         width: 14
         height: 13
       alignment: 0
@@ -542,7 +543,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 273
-        y: 86
+        y: 275
         width: 84
         height: 56
       alignment: 0
@@ -562,17 +563,37 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 288
-        y: 64
+        y: 253
         width: 32
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: ab813b86fc6f2ac46838ecc144580f6e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spritesheet_23
+      rect:
+        serializedVersion: 2
+        x: 372
+        y: 3
+        width: 30
+        height: 330
+      alignment: 9
+      pivot: {x: 0.53610533, y: 0.021891348}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82aa04a00cbe2d54d8b316f2555a413c
       vertices: []
       indices: 
       edges: []

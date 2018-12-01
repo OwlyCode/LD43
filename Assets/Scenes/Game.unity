@@ -177,7 +177,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1614644593
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 30
   m_Sprite: {fileID: 21300042, guid: 2d85e795d655e584fae50b2e39539ecc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -256,6 +256,7 @@ MonoBehaviour:
     type: 2}
   human: {fileID: 1021990225964578, guid: ac147fedb65904445bb120ee87fd348a, type: 2}
   spot: {fileID: 1351106704511962, guid: 18d248dd2021fa44c8cc8b4ee6fe9069, type: 2}
+  lightning: {fileID: 1673478575462136, guid: b18e5e9e33bd7dd459763582b1a412b8, type: 2}
 --- !u!4 &148201966
 Transform:
   m_ObjectHideFlags: 0
@@ -330,11 +331,6 @@ Prefab:
     - target: {fileID: 1330653801335462, guid: c1fe151bff067f543929723d031ee925, type: 2}
       propertyPath: m_Name
       value: LeftPillar
-      objectReference: {fileID: 0}
-    - target: {fileID: 61294915208489166, guid: c1fe151bff067f543929723d031ee925,
-        type: 2}
-      propertyPath: m_IsTrigger
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1fe151bff067f543929723d031ee925, type: 2}
@@ -444,7 +440,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2088935841
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300024, guid: 2d85e795d655e584fae50b2e39539ecc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -733,7 +729,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1614644593
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 100
   m_Sprite: {fileID: 21300040, guid: 2d85e795d655e584fae50b2e39539ecc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -808,7 +804,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1614644593
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300030, guid: 2d85e795d655e584fae50b2e39539ecc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -870,7 +866,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2088935841
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: -10
   m_Sprite: {fileID: 21300026, guid: 2d85e795d655e584fae50b2e39539ecc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -958,7 +954,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1614644593
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300032, guid: 2d85e795d655e584fae50b2e39539ecc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1035,7 +1031,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1614644593
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300028, guid: 2d85e795d655e584fae50b2e39539ecc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1110,7 +1106,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2088935841
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300022, guid: 2d85e795d655e584fae50b2e39539ecc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1304,7 +1300,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1614644593
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300028, guid: 2d85e795d655e584fae50b2e39539ecc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1399,7 +1395,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2088935841
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300022, guid: 2d85e795d655e584fae50b2e39539ecc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1487,7 +1483,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2088935841
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300022, guid: 2d85e795d655e584fae50b2e39539ecc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1500,27 +1496,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1607279997 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1330653801335462, guid: c1fe151bff067f543929723d031ee925,
-    type: 2}
-  m_PrefabInternal: {fileID: 216301694}
 --- !u!4 &1607279998 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4671654744328824, guid: c1fe151bff067f543929723d031ee925,
     type: 2}
   m_PrefabInternal: {fileID: 216301694}
---- !u!114 &1607279999
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1607279997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20c70252fa9d60742be87244885c0f71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1787866870
 GameObject:
   m_ObjectHideFlags: 0
@@ -1583,7 +1563,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1614644593
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300034, guid: 2d85e795d655e584fae50b2e39539ecc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1646,7 +1626,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1614644593
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300018, guid: 2d85e795d655e584fae50b2e39539ecc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1828,7 +1808,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1614644593
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300030, guid: 2d85e795d655e584fae50b2e39539ecc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

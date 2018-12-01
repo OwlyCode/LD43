@@ -11,6 +11,11 @@ public class Human : MonoBehaviour {
     public string leftHandId;
     public string headId;
 
+    public bool HasAccessory(string id)
+    {
+        return this.rightHandId == id || this.leftHandId == id || this.headId == id;
+    }
+
     // Use this for initialization
     void Start ()
     {

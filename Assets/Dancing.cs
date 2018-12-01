@@ -9,7 +9,7 @@ public class Dancing : MonoBehaviour {
 
     private float nextBeat = 0;
     private float lastTime = 0;
-    private float inclination = 2f;
+    private float inclination = 4f;
 
     // Use this for initialization
     void Start () {

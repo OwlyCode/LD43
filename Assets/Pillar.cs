@@ -8,8 +8,8 @@ public class Pillar : MonoBehaviour {
 
     void OnMouseOver()
     {
-        if (Input.GetMouseButtonDown(0)){
-
+        if (Input.GetMouseButtonDown(0) && currentSolution != null){
+            GameObject.Find("/Global").GetComponent<GameLogic>().Solve(currentSolution);
         }
     }
 }

@@ -16,9 +16,9 @@ public class IconFinder : MonoBehaviour {
         switch(name)
         {
             case "H1":
-                return redHelmet;
-            case "H2":
                 return blueHelmet;
+            case "H2":
+                return redHelmet;
             case "L1":
                 return goldenShield;
             case "L2":
