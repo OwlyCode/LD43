@@ -87,6 +87,9 @@ public class GodBehavior : MonoBehaviour {
 
         GameObject leftPillar = GameObject.Find("/Temple/LeftPillar");
         GameObject rightPillar = GameObject.Find("/Temple/RightPillar");
+        GameObject camera = GameObject.Find("/Main Camera");
+
+        camera.GetComponent<Camera>().backgroundColor = Color.Lerp(new Color(173f/255, 95f/255, 26f/255), new Color(172f/255, 50f/255, 50f/255), anger - 0.3f);
 
         foreach (Transform child in leftPillar.transform)
         {
