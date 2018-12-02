@@ -315,7 +315,7 @@ public class GameLogic : MonoBehaviour {
         humanComponent.headId = "H" + head;
 
         humanInstance.GetComponent<Dancing>().beatSource = music;
-        humanInstance.transform.position = new Vector2(position.x, -80 + position.y);
+        humanInstance.transform.position = new Vector2(position.x / 10f, -80 + position.y);
 
         return humanInstance;
 	}
