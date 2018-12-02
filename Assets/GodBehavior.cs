@@ -5,7 +5,7 @@ using UnityEngine;
 public class GodBehavior : MonoBehaviour {
     public float anger = 0.8f;
     public float angerShakingRatio = 4f;
-    public float patience = 5f;
+    public float patience = 12f;
 
     bool waiting = false;
     bool leaving = false;
@@ -27,6 +27,7 @@ public class GodBehavior : MonoBehaviour {
 
         leftEyeGlow.transform.localScale = Vector2.zero;
         rightEyeGlow.transform.localScale = Vector2.zero;
+        UpdateSkyColor();
     }
 
     void Update()
@@ -79,6 +80,13 @@ public class GodBehavior : MonoBehaviour {
         bubble.SetActive(true);
     }
 
+    void UpdateSkyColor()
+    {
+        GameObject camera = GameObject.Find("/Main Camera");
+
+        camera.GetComponent<Camera>().backgroundColor = Color.Lerp(new Color(173f / 255, 95f / 255, 26f / 255), new Color(172f / 255, 50f / 255, 50f / 255), anger - 0.3f);
+    }
+
     void StopWaiting()
     {
         timeWaited = 0f;
@@ -87,9 +95,6 @@ public class GodBehavior : MonoBehaviour {
 
         GameObject leftPillar = GameObject.Find("/Temple/LeftPillar");
         GameObject rightPillar = GameObject.Find("/Temple/RightPillar");
-        GameObject camera = GameObject.Find("/Main Camera");
-
-        camera.GetComponent<Camera>().backgroundColor = Color.Lerp(new Color(173f/255, 95f/255, 26f/255), new Color(172f/255, 50f/255, 50f/255), anger - 0.3f);
 
         foreach (Transform child in leftPillar.transform)
         {
@@ -100,6 +105,8 @@ public class GodBehavior : MonoBehaviour {
         {
             GameObject.Destroy(child.gameObject);
         }
+
+        UpdateSkyColor();
     }
 
     void CheckEnd()
@@ -127,6 +134,7 @@ public class GodBehavior : MonoBehaviour {
     {
         GameObject.Find("Sound/Pleased").GetComponent<AudioSource>().Play();
         this.anger -= 0.1f;
+        this.patience = Mathf.Max(this.patience * 0.6f, 3f);
         StopWaiting();
         CheckEnd();
     }
