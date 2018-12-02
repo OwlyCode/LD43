@@ -17,6 +17,10 @@ public class GameLogic : MonoBehaviour {
 
     List<GameObject> humans;
 
+    GameObject requestedSlot;
+    GameObject counter;
+    GameObject forbiddenSlot;
+
     private SacrificeRequest currentSacrifice;
     bool haltGame = false;
 
@@ -24,6 +28,10 @@ public class GameLogic : MonoBehaviour {
     {
         humans = new List<GameObject>();
         StartCoroutine(NextWave());
+
+        requestedSlot = GameObject.Find("/Bubble/RequestedSlot");
+        counter = GameObject.Find("/Bubble/CounterSlot");
+        forbiddenSlot = GameObject.Find("/Bubble/ForbiddenSlot");
     }
 
     IEnumerator NextWave()
@@ -52,32 +60,51 @@ public class GameLogic : MonoBehaviour {
             }
         }
 
-        currentSacrifice = CreateSacrificeRequest(humans);
+        currentSacrifice = DilemnaMapper.CreateSacrificeRequest(humans);
 
         GameObject.Find("/God").GetComponent<GodBehavior>().RequestSacrifice();
 
         IconFinder finder = GetComponent<IconFinder>();
-        GameObject requestedIcon = UnityEngine.Object.Instantiate(finder.GetIcon(currentSacrifice.requestedObject));
-        GameObject forbiddenIcon = UnityEngine.Object.Instantiate(finder.GetIcon(currentSacrifice.forbiddenObject));
 
-        GameObject requestedSlot = GameObject.Find("/Bubble/RequestedSlot");
-        GameObject forbiddenSlot = GameObject.Find("/Bubble/ForbiddenSlot");
-
-        foreach (Transform child in requestedSlot.transform)
+        if (currentSacrifice.requestType == SacrificeRequest.TYPE_AMOUNT)
         {
-            GameObject.Destroy(child.gameObject);
+            GameObject requestedIcon = UnityEngine.Object.Instantiate(finder.GetIcon(currentSacrifice.requestedObject));
+
+            forbiddenSlot.SetActive(false);
+            counter.SetActive(true);
+
+            counter.GetComponent<TextMesh>().text = "x" + currentSacrifice.requestedAmount;
+
+            foreach (Transform child in requestedSlot.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+
+            requestedIcon.transform.parent = requestedSlot.transform;
+            requestedIcon.transform.localPosition = Vector2.zero;
+        } else {
+            GameObject requestedIcon = UnityEngine.Object.Instantiate(finder.GetIcon(currentSacrifice.requestedObject));
+            GameObject forbiddenIcon = UnityEngine.Object.Instantiate(finder.GetIcon(currentSacrifice.forbiddenObject));
+
+            forbiddenSlot.SetActive(true);
+            counter.SetActive(false);
+
+            foreach (Transform child in requestedSlot.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+
+            foreach (Transform child in forbiddenSlot.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+
+            requestedIcon.transform.parent = requestedSlot.transform;
+            requestedIcon.transform.localPosition = Vector2.zero;
+            forbiddenIcon.transform.parent = forbiddenSlot.transform;
+            forbiddenIcon.transform.localPosition = Vector2.zero;
         }
-
-        foreach (Transform child in forbiddenSlot.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
-
-        requestedIcon.transform.parent = requestedSlot.transform;
-        requestedIcon.transform.localPosition = Vector2.zero;
-        forbiddenIcon.transform.parent = forbiddenSlot.transform;
-        forbiddenIcon.transform.localPosition = Vector2.zero;
-
+ 
         GameObject leftPillar = GameObject.Find("/Temple/LeftPillar");
         GameObject rightPillar = GameObject.Find("/Temple/RightPillar");
 
@@ -116,7 +143,7 @@ public class GameLogic : MonoBehaviour {
                 GameObject newHuman = SpawnRandomHuman(spotTransform.position);
                 humans.Add(newHuman);
                 int count = 0;
-                while (!IsSolvable(humans, currentSacrifice) && count < 1000)
+                while (!DilemnaMapper.IsSolvable(humans, currentSacrifice) && count < 1000)
                 {
                     humans.Remove(newHuman);
                     UnityEngine.Object.Destroy(newHuman);
@@ -136,95 +163,10 @@ public class GameLogic : MonoBehaviour {
             }
         }
     }
-
-    SacrificeRequest CreateSacrificeRequest(List<GameObject> humans, int count = 0)
-    {
-        string[] possibleRequests = new[] { "L1", "L2", "R1", "R2", "H1", "H2" };
-
-        string request = possibleRequests[UnityEngine.Random.Range(0, possibleRequests.Length)];
-
-        string[] possibleForbid = Array.FindAll(possibleRequests, r => r[0] != request[0]);
-
-        string forbid = possibleForbid[UnityEngine.Random.Range(0, possibleForbid.Length)];
-
-        string[] solutions = Array.FindAll(possibleRequests, r => r[0] != request[0] && r[0] != forbid[0]);
-
-        SacrificeRequest sacrifice = new SacrificeRequest(request, forbid, solutions);
-
-        if (humans.Count == 0 || IsSolvable(humans, sacrifice))
-        {
-            return sacrifice;
-        }
-
-        if (count == 1000)
-        {
-            Debug.LogError("Could not create a valid sacrifice query");
-            return null;
-        }
-
-        return CreateSacrificeRequest(humans, count + 1); //recursion
-    }
-
-    List<string> GetPossibleSolutions(List<GameObject> humans, SacrificeRequest request)
-    {
-        List<string> solutions = new List<string>(request.solutions);
-        List<GameObject> possibleHumans = new List<GameObject>();
-
-        foreach (GameObject h in humans)
-        {
-            Human human = h.GetComponent<Human>();
-
-            if (human.rightHandId == request.forbiddenObject || human.leftHandId == request.forbiddenObject || human.headId == request.forbiddenObject)
-            {
-                int rightPos = solutions.IndexOf(human.rightHandId);
-                if (rightPos != -1)
-                {
-                    solutions.RemoveAt(rightPos);
-                }
-
-                int leftPos = solutions.IndexOf(human.leftHandId);
-                if (leftPos != -1)
-                {
-                    solutions.RemoveAt(leftPos);
-                }
-
-                int headPos = solutions.IndexOf(human.headId);
-                if (headPos != -1)
-                {
-                    solutions.RemoveAt(headPos);
-                }
-            }
-            else
-            {
-                possibleHumans.Add(h);
-            }
-        }
-
-        List<string> possibleSolutions = new List<string>();
-
-        foreach (GameObject h in possibleHumans)
-        {
-            Human human = h.GetComponent<Human>();
-
-            foreach (string s in solutions)
-            {
-                if (
-                    (human.rightHandId == request.requestedObject || human.leftHandId == request.requestedObject || human.headId == request.requestedObject) &&
-                    (human.rightHandId == s || human.leftHandId == s || human.headId == s) &&
-                    possibleSolutions.IndexOf(s) == -1
-                )
-                {
-                    possibleSolutions.Add(s);
-                }
-            }
-        }
-
-        return possibleSolutions;
-    }
-
+    
     public void Solve(string solution)
     {
-        if (IsSolved(humans, currentSacrifice, solution))
+        if (DilemnaMapper.IsSolved(humans, currentSacrifice, solution))
         {
             GameObject.Find("/God").GetComponent<GodBehavior>().Soften();
         } else
@@ -251,18 +193,6 @@ public class GameLogic : MonoBehaviour {
     public void TriggerNextWave()
     {
         StartCoroutine(NextWave());
-    }
-
-    public bool IsSolved(List<GameObject> humans, SacrificeRequest request, string proposedSolution)
-    {
-        return GetPossibleSolutions(humans, request).IndexOf(proposedSolution) != -1;
-    }
-
-    bool IsSolvable(List<GameObject> humans, SacrificeRequest request)
-    {
-        List<string> solutions = GetPossibleSolutions(humans, request);
-
-        return solutions.Count != 0;
     }
 
     GameObject SpawnRandomHuman(Vector2 position)
