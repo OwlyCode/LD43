@@ -174,16 +174,13 @@ MonoBehaviour:
     m_BestFit: 1
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Panquetzaliztli, the 15th month of the Aztec Calendar has come. Huitzilopochtli,
-    the god of war, the sun and human sacrifices requires his yearly tribute.\r\n\r\nFollow
-    his instructions to please him or face the Infinite Night.\r\n\r\nClick anywhere
-    to start"
+  m_Text: "\n\rClick anywhere to start"
 --- !u!222 &62117806
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -670,7 +667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d13a856b1006159479f19bdead241031, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: Tutorial1
+  scene: Tutorial0
 --- !u!1 &1438641202
 GameObject:
   m_ObjectHideFlags: 0

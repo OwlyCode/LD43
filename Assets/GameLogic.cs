@@ -364,6 +364,6 @@ public class GameLogic : MonoBehaviour {
             yield return new WaitForSeconds(.5f);
         }
 
-        yield return GoToScene("Defeat", 5f, Color.black);
+        yield return GoToScene("Defeat", 1f, Color.black);
     }
 }
