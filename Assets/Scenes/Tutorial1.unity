@@ -666,8 +666,8 @@ MonoBehaviour:
   m_Text: 'Watch what Huitzilopochtli asks you.
 
 
-    Here he wants you to sacrifice at least one golden helmet with red feathers but
-    absolutely no iron spears.'
+    Here he wants you to sacrifice at least one people wearing a  golden helmet with
+    red feathers but absolutely no one holding an iron spear.'
 --- !u!222 &726037132
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -744,6 +744,111 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 767112021}
   m_CullTransparentMesh: 0
+--- !u!1001 &858523889
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1834244552}
+    m_Modifications:
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 348
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -348
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 41.389
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 41.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+        type: 2}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d6dd9fc076c3185488aaf1966cfcfd0f, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!224 &858523890 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 224227321771785516, guid: d6dd9fc076c3185488aaf1966cfcfd0f,
+    type: 2}
+  m_PrefabInternal: {fileID: 858523889}
 --- !u!1 &949276218
 GameObject:
   m_ObjectHideFlags: 0
@@ -2325,6 +2430,7 @@ RectTransform:
   - {fileID: 1694280469}
   - {fileID: 1231140157}
   - {fileID: 1726073061}
+  - {fileID: 858523890}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
