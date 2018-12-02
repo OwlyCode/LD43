@@ -99,11 +99,8 @@ public class GodBehavior : MonoBehaviour {
         }
     }
 
-    public void Anger()
+    void CheckEnd()
     {
-        this.anger += 0.1f;
-        StopWaiting();
-
         if (anger > 1.0f)
         {
             GameObject.Find("/Global").GetComponent<GameLogic>().Loose();
@@ -115,10 +112,18 @@ public class GodBehavior : MonoBehaviour {
         }
     }
 
+    public void Anger()
+    {
+        this.anger += 0.1f;
+        StopWaiting();
+        CheckEnd();
+    }
+
     public void Soften()
     {
         this.anger -= 0.1f;
         StopWaiting();
+        CheckEnd();
     }
 
     void StartShaking()

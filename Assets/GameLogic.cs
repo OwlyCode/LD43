@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameLogic : MonoBehaviour {
     public GameObject ironSpear;
@@ -32,7 +33,7 @@ public class GameLogic : MonoBehaviour {
 
     IEnumerator NextWave()
     {
-        yield return new WaitForSeconds(.0f);
+        yield return new WaitForSeconds(3.0f);
 
         if (!haltGame)
         {
@@ -324,6 +325,7 @@ public class GameLogic : MonoBehaviour {
         haltGame = true;
         GameObject.Find("/Sound/Music").GetComponent<AudioSource>().Stop();
         GameObject.Find("/God").GetComponent<GodBehavior>().Leave();
+        StartCoroutine(GoToScene("Victory", 5f));
     }
 
     public void Loose()
@@ -333,6 +335,14 @@ public class GameLogic : MonoBehaviour {
         GameObject.Find("/God").GetComponent<GodBehavior>().EndTheWorld();
 
         StartCoroutine(ThunderStorm());
+        StartCoroutine(GoToScene("Defeat", 5f));
+    }
+
+    IEnumerator GoToScene(string scene, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        SceneManager.LoadScene(scene);
     }
 
     IEnumerator ThunderStorm()
