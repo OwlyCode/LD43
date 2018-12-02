@@ -2286,12 +2286,14 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Huitzilopochtli offers you to sacrifice ALL people wearing a golden shield
-    or ALL people wearing an iron shield. But beware ! If your choice does not match
-    what he asks, he will get angry !
+  m_Text: 'On this example, you can sacrifice every people wearing a golden shield
+    or every people wearing an iron shield.
 
 
-    Good luck !'
+    Beware ! If your choice does not match what the god asks, he will get angry.
+
+
+    Be quick, and good luck !'
 --- !u!222 &1742330246
 CanvasRenderer:
   m_ObjectHideFlags: 0

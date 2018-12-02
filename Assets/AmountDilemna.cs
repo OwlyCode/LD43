@@ -26,6 +26,13 @@ public class AmountDilemna {
         }
 
         string solution = solutions[0];
+
+        
+        if (solution == sacrifice.requestedObject)
+        {
+            return DilemnaMapper.CreateSacrificeRequest(humans, count + 1);
+        }
+
         string lure = "H1";
 
         switch (solution)
@@ -50,7 +57,9 @@ public class AmountDilemna {
                 break;
         }
 
-        return new SacrificeRequest(request, amount, new[] { solution, lure });
+        string[] offeredSolutions = UnityEngine.Random.Range(0, 2) == 1 ? new[] { solution, lure } : new[] { lure, solution };
+
+        return new SacrificeRequest(request, amount, offeredSolutions);
     }
 
     public static List<string> GetPossibleSolutions(List<GameObject> humans, SacrificeRequest request)

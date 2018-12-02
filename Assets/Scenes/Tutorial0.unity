@@ -1505,7 +1505,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "Panquetzaliztli, the 15th month of the Aztec Calendar has come. Huitzilopochtli,
-    the god of war, the sun and human sacrifices requires his yearly tribute.\r\n\r\nFollow
+    the god of war, sun and human sacrifices requires his yearly tribute.\r\n\r\nFollow
     his instructions to please him or face the Infinite Night.\r"
 --- !u!222 &1119724077
 CanvasRenderer:

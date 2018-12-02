@@ -663,11 +663,14 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Watch what Huitzilopochtli asks you.
+  m_Text: 'Watch what Huitzilopochtli wants from you.
 
 
-    Here he wants you to sacrifice at least one people wearing a  golden helmet with
-    red feathers but absolutely no one holding an iron spear.'
+    Here you need to sacrifice at least one people wearing a  golden helmet with red
+    feathers but absolutely no one holding an iron spear.
+
+
+    His eyes will show how much time you have to answer by turning progressively red.'
 --- !u!222 &726037132
 CanvasRenderer:
   m_ObjectHideFlags: 0

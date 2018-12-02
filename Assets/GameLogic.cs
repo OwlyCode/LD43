@@ -20,6 +20,7 @@ public class GameLogic : MonoBehaviour {
     GameObject requestedSlot;
     GameObject counter;
     GameObject forbiddenSlot;
+    GameObject counterRequestSlot;
 
     private SacrificeRequest currentSacrifice;
     bool haltGame = false;
@@ -30,8 +31,9 @@ public class GameLogic : MonoBehaviour {
         StartCoroutine(NextWave());
 
         requestedSlot = GameObject.Find("/Bubble/RequestedSlot");
-        counter = GameObject.Find("/Bubble/CounterSlot");
         forbiddenSlot = GameObject.Find("/Bubble/ForbiddenSlot");
+        counter = GameObject.Find("/Bubble/CounterSlot");
+        counterRequestSlot = GameObject.Find("/Bubble/CounterRequestSlot");
     }
 
     IEnumerator NextWave()
@@ -60,7 +62,6 @@ public class GameLogic : MonoBehaviour {
             }
         }
 
-
         foreach (Transform spotTransform in GameObject.Find("/Crowd").transform)
         {
             GameObject spot = spotTransform.gameObject;
@@ -81,21 +82,32 @@ public class GameLogic : MonoBehaviour {
 
         IconFinder finder = GetComponent<IconFinder>();
 
+        foreach (Transform child in requestedSlot.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        foreach (Transform child in forbiddenSlot.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        foreach (Transform child in counterRequestSlot.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
         if (currentSacrifice.requestType == SacrificeRequest.TYPE_AMOUNT)
         {
             GameObject requestedIcon = UnityEngine.Object.Instantiate(finder.GetIcon(currentSacrifice.requestedObject));
 
             forbiddenSlot.SetActive(false);
             counter.SetActive(true);
+            counterRequestSlot.SetActive(true);
 
             counter.GetComponent<TextMesh>().text = "x" + currentSacrifice.requestedAmount;
 
-            foreach (Transform child in requestedSlot.transform)
-            {
-                GameObject.Destroy(child.gameObject);
-            }
-
-            requestedIcon.transform.parent = requestedSlot.transform;
+            requestedIcon.transform.parent = counterRequestSlot.transform;
             requestedIcon.transform.localPosition = Vector2.zero;
         } else {
             GameObject requestedIcon = UnityEngine.Object.Instantiate(finder.GetIcon(currentSacrifice.requestedObject));
@@ -103,16 +115,7 @@ public class GameLogic : MonoBehaviour {
 
             forbiddenSlot.SetActive(true);
             counter.SetActive(false);
-
-            foreach (Transform child in requestedSlot.transform)
-            {
-                GameObject.Destroy(child.gameObject);
-            }
-
-            foreach (Transform child in forbiddenSlot.transform)
-            {
-                GameObject.Destroy(child.gameObject);
-            }
+            counterRequestSlot.SetActive(false);
 
             requestedIcon.transform.parent = requestedSlot.transform;
             requestedIcon.transform.localPosition = Vector2.zero;
