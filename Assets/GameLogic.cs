@@ -26,11 +26,6 @@ public class GameLogic : MonoBehaviour {
         StartCoroutine(NextWave());
     }
 
-    private void Update()
-    {
-
-    }
-
     IEnumerator NextWave()
     {
         yield return new WaitForSeconds(3.0f);
@@ -318,6 +313,7 @@ public class GameLogic : MonoBehaviour {
 
         humanInstance.GetComponent<Dancing>().beatSource = music;
         humanInstance.transform.position = new Vector2(position.x / 10f, -80 + position.y);
+        humanInstance.transform.parent = GameObject.Find("/Misc").transform;
 
         return humanInstance;
 	}
@@ -327,7 +323,7 @@ public class GameLogic : MonoBehaviour {
         haltGame = true;
         GameObject.Find("/Sound/Music").GetComponent<AudioSource>().Stop();
         GameObject.Find("/God").GetComponent<GodBehavior>().Leave();
-        StartCoroutine(GoToScene("Victory", 5f));
+        StartCoroutine(GoToScene("Victory", 5f, new Color(49f / 255, 77f / 255, 121f / 255)));
     }
 
     public void Loose()
@@ -337,12 +333,13 @@ public class GameLogic : MonoBehaviour {
         GameObject.Find("/God").GetComponent<GodBehavior>().EndTheWorld();
 
         StartCoroutine(ThunderStorm());
-        StartCoroutine(GoToScene("Defeat", 5f));
     }
 
-    IEnumerator GoToScene(string scene, float delay)
+    IEnumerator GoToScene(string scene, float delay, Color fadingColor)
     {
         yield return new WaitForSeconds(delay);
+
+        yield return Fading.Out(fadingColor, 0.5f);
 
         SceneManager.LoadScene(scene);
     }
@@ -351,16 +348,22 @@ public class GameLogic : MonoBehaviour {
     {
         AudioSource thunder = GameObject.Find("Sound/Thunder").GetComponent<AudioSource>();
 
-        for (int i = 0; i < 80; i++)
-        {
-            GameObject lightningInstance = Instantiate(lightning);
-            lightningInstance.transform.position = new Vector2(UnityEngine.Random.Range(-120f, 120f), UnityEngine.Random.Range(-50f, -150f));
+        Transform misc = GameObject.Find("/Misc").transform;
 
-            if (i % 8 == 0)
+        while (misc.childCount > 0)
+        {
+            for(int i = 0; i < 8 && i < misc.childCount; i++)
             {
-                yield return new WaitForSeconds(.5f);
-                thunder.Play();
+                Transform target = misc.GetChild(i);
+                GameObject lightningInstance = Instantiate(lightning);
+                lightningInstance.transform.position = target.position;
+                lightningInstance.GetComponent<Lightning>().target = target.gameObject;
             }
+
+            thunder.Play();
+            yield return new WaitForSeconds(.5f);
         }
+
+        yield return GoToScene("Defeat", 5f, Color.black);
     }
 }

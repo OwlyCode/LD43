@@ -257,10 +257,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Huitzilopochtli had been pleased enough. He silently left the Temple.
+  m_Text: 'Huitzilopochtli has been pleased enough. He silently left the Temple.
 
 
-    The Infinite Night was gone, at least until the next Panquetzaliztli.'
+    The Infinite Night is, at least until the next Panquetzaliztli.'
 --- !u!222 &701495878
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -180,14 +180,14 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Huitzilopochtli had become so angered that he shattered the temple with
-    a divine storm and let the Infinite Night fall on the world.
+  m_Text: 'Huitzilopochtli became so angered that he shattered the temple with a divine
+    storm and let the Infinite Night fall on the world.
 
 
-    No sacrifice could satisfy him anymore.
+    No sacrifice can satisfy him anymore.
 
 
-    Soon the world became so dark and cold that no one could survive.'
+    The world is becoming so dark and cold that no one is expected to survive.'
 --- !u!222 &326191619
 CanvasRenderer:
   m_ObjectHideFlags: 0
