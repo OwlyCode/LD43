@@ -114,6 +114,7 @@ public class GodBehavior : MonoBehaviour {
 
     public void Anger()
     {
+        GameObject.Find("Sound/Angry").GetComponent<AudioSource>().Play();
         this.anger += 0.1f;
         StopWaiting();
         CheckEnd();
@@ -121,6 +122,7 @@ public class GodBehavior : MonoBehaviour {
 
     public void Soften()
     {
+        GameObject.Find("Sound/Pleased").GetComponent<AudioSource>().Play();
         this.anger -= 0.1f;
         StopWaiting();
         CheckEnd();
