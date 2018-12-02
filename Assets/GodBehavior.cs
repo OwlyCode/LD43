@@ -8,6 +8,9 @@ public class GodBehavior : MonoBehaviour {
     public float patience = 5f;
 
     bool waiting = false;
+    bool leaving = false;
+    bool endingTheWorld = false;
+
     float timeWaited = 0f;
 
     GameObject leftEyeGlow;
@@ -45,6 +48,28 @@ public class GodBehavior : MonoBehaviour {
                 GameObject.Find("/Global").GetComponent<GameLogic>().TriggerNextWave();
             }
         }
+
+        if (leaving)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(0, -200), 0.5f);
+        }
+
+        if (endingTheWorld)
+        {
+            leftEyeGlow.transform.localScale = new Vector2(1, 1);
+            rightEyeGlow.transform.localScale = new Vector2(1, 1);
+        }
+    }
+
+    public void EndTheWorld()
+    {
+        endingTheWorld = true;
+        Shake();
+    }
+
+    public void Leave()
+    {
+        leaving = true;
     }
 
     public void RequestSacrifice()
@@ -81,12 +106,12 @@ public class GodBehavior : MonoBehaviour {
 
         if (anger > 1.0f)
         {
-            Debug.Log("LOST");
+            GameObject.Find("/Global").GetComponent<GameLogic>().Loose();
         }
 
         if (anger < 0.3f)
         {
-            Debug.Log("WIN");
+            GameObject.Find("/Global").GetComponent<GameLogic>().Win();
         }
     }
 
@@ -105,12 +130,13 @@ public class GodBehavior : MonoBehaviour {
     {
         while (true)
         {
-            if (waiting)
+            if (waiting || endingTheWorld)
             {
+                float amplitude = endingTheWorld ? 4.0f : timeWaited / patience;
                 transform.rotation = Quaternion.identity;
-                transform.Rotate(0f, 0f, (timeWaited/patience) * angerShakingRatio);
+                transform.Rotate(0f, 0f, amplitude * angerShakingRatio);
                 yield return new WaitForSeconds(0.05f);
-                transform.Rotate(0f, 0f, -(timeWaited / patience) * angerShakingRatio * 2);
+                transform.Rotate(0f, 0f, -amplitude * angerShakingRatio * 2);
                 yield return new WaitForSeconds(0.05f);
             } else {
                 transform.rotation = Quaternion.identity;

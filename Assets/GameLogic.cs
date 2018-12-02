@@ -17,6 +17,7 @@ public class GameLogic : MonoBehaviour {
     List<GameObject> humans;
 
     private SacrificeRequest currentSacrifice;
+    bool haltGame = false;
 
     private void Start()
     {
@@ -33,7 +34,11 @@ public class GameLogic : MonoBehaviour {
     {
         yield return new WaitForSeconds(.0f);
 
-        Generate();
+        if (!haltGame)
+        {
+            Generate();
+        }
+
     }
 
     void Generate()
@@ -313,4 +318,37 @@ public class GameLogic : MonoBehaviour {
 
         return humanInstance;
 	}
+
+    public void Win()
+    {
+        haltGame = true;
+        GameObject.Find("/Sound/Music").GetComponent<AudioSource>().Stop();
+        GameObject.Find("/God").GetComponent<GodBehavior>().Leave();
+    }
+
+    public void Loose()
+    {
+        haltGame = true;
+        GameObject.Find("/Sound/Music").GetComponent<AudioSource>().Stop();
+        GameObject.Find("/God").GetComponent<GodBehavior>().EndTheWorld();
+
+        StartCoroutine(ThunderStorm());
+    }
+
+    IEnumerator ThunderStorm()
+    {
+        AudioSource thunder = GameObject.Find("Sound/Thunder").GetComponent<AudioSource>();
+
+        for (int i = 0; i < 80; i++)
+        {
+            GameObject lightningInstance = Instantiate(lightning);
+            lightningInstance.transform.position = new Vector2(UnityEngine.Random.Range(-120f, 120f), UnityEngine.Random.Range(-50f, -150f));
+
+            if (i % 8 == 0)
+            {
+                yield return new WaitForSeconds(.5f);
+                thunder.Play();
+            }
+        }
+    }
 }

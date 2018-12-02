@@ -14,7 +14,11 @@ public class Lightning : MonoBehaviour {
     IEnumerator Strike()
     {
         float add = 0.2f;
-        Object.Destroy(target);
+
+        if (target)
+        {
+            Object.Destroy(target);
+        }
 
         for (int i=0; i < 30; i++)
         {
