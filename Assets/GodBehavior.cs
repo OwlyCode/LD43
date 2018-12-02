@@ -60,6 +60,14 @@ public class GodBehavior : MonoBehaviour {
             leftEyeGlow.transform.localScale = new Vector2(1, 1);
             rightEyeGlow.transform.localScale = new Vector2(1, 1);
         }
+
+
+        if (!leaving && !endingTheWorld)
+        {
+            Vector3 pointA = new Vector3(15, 72, 0);
+            Vector3 pointB = new Vector3(-15, 72, 1);
+            transform.position = Vector3.Lerp(pointA, pointB, Mathf.PingPong(Time.time / 3, 1));
+        }
     }
 
     public void EndTheWorld()
@@ -130,6 +138,7 @@ public class GodBehavior : MonoBehaviour {
     public void Anger()
     {
         GameObject.Find("Sound/Angry").GetComponent<AudioSource>().Play();
+        GameObject.Find("Temple").GetComponent<FlashObject>().Flash(Color.red);
         this.anger += 0.1f;
         StopWaiting();
         CheckEnd();
@@ -138,6 +147,7 @@ public class GodBehavior : MonoBehaviour {
     public void Soften()
     {
         GameObject.Find("Sound/Pleased").GetComponent<AudioSource>().Play();
+        GameObject.Find("Temple").GetComponent<FlashObject>().Flash(Color.green);
         this.anger -= 0.1f;
         this.patience = Mathf.Max(this.patience * 0.6f, 3f);
         StopWaiting();
@@ -166,5 +176,15 @@ public class GodBehavior : MonoBehaviour {
                 yield return new WaitForSeconds(0.05f);
             }
         }
+    }
+
+    void SoftlyNod()
+    {
+
+    }
+
+    void ShakeHead()
+    {
+
     }
 }
