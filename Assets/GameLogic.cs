@@ -98,6 +98,8 @@ public class GameLogic : MonoBehaviour {
 
         leftPillar.GetComponent<Pillar>().currentSolution = currentSacrifice.solutions[0];
         rightPillar.GetComponent<Pillar>().currentSolution = currentSacrifice.solutions[1];
+        leftPillar.GetComponent<Pillar>().StartBlinking();
+        rightPillar.GetComponent<Pillar>().StartBlinking();
 
         GameObject leftSolutionIcon = UnityEngine.Object.Instantiate(finder.GetIcon(currentSacrifice.solutions[0]));
         GameObject rightSolutionIcon = UnityEngine.Object.Instantiate(finder.GetIcon(currentSacrifice.solutions[1]));

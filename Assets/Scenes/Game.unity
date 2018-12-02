@@ -716,6 +716,11 @@ Prefab:
       propertyPath: m_Name
       value: LeftPillar
       objectReference: {fileID: 0}
+    - target: {fileID: 212948932367309376, guid: c1fe151bff067f543929723d031ee925,
+        type: 2}
+      propertyPath: m_Color.b
+      value: 0.41960785
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1fe151bff067f543929723d031ee925, type: 2}
   m_IsPrefabAsset: 0

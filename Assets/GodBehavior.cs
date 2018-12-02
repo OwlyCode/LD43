@@ -96,6 +96,11 @@ public class GodBehavior : MonoBehaviour {
         GameObject leftPillar = GameObject.Find("/Temple/LeftPillar");
         GameObject rightPillar = GameObject.Find("/Temple/RightPillar");
 
+        leftPillar.GetComponent<Pillar>().currentSolution = null;
+        rightPillar.GetComponent<Pillar>().currentSolution = null;
+        leftPillar.GetComponent<Pillar>().StopBlinking();
+        rightPillar.GetComponent<Pillar>().StopBlinking();
+
         foreach (Transform child in leftPillar.transform)
         {
             GameObject.Destroy(child.gameObject);

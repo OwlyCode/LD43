@@ -24,7 +24,14 @@ public class Dancing : MonoBehaviour {
 
         AudioSource audio = beatSource.GetComponent<AudioSource>();
 
-        if (audio.time < lastTime)
+
+        if (!audio.isPlaying)
+        {
+            transform.rotation = Quaternion.identity;
+            return;
+        }
+
+            if (audio.time < lastTime)
         {
             nextBeat = 0;
         }
