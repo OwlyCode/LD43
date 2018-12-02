@@ -5,10 +5,11 @@ using UnityEngine;
 public class Lightning : MonoBehaviour {
 
     public GameObject target;
+    public GameObject ashes;
 
 	// Use this for initialization
 	void Start () {
-        StartCoroutine(Strike());	
+        StartCoroutine(Strike());
 	}
 
     IEnumerator Strike()
@@ -27,6 +28,9 @@ public class Lightning : MonoBehaviour {
             add = add * -1;
             
         }
+
+        GameObject ashesInstance = GameObject.Instantiate(ashes);
+        ashesInstance.transform.position = transform.position;
 
         Object.Destroy(gameObject);
     }
