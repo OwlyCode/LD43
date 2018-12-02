@@ -60,6 +60,21 @@ public class GameLogic : MonoBehaviour {
             }
         }
 
+
+        foreach (Transform spotTransform in GameObject.Find("/Crowd").transform)
+        {
+            GameObject spot = spotTransform.gameObject;
+            Spot spotComponent = spot.GetComponent<Spot>();
+
+            if (!spotComponent.assignedHuman)
+            {
+                GameObject newHuman = SpawnRandomHuman(spotTransform.position);
+                humans.Add(newHuman);
+
+                spotComponent.assignedHuman = newHuman;
+            }
+        }
+
         currentSacrifice = DilemnaMapper.CreateSacrificeRequest(humans);
 
         GameObject.Find("/God").GetComponent<GodBehavior>().RequestSacrifice();
@@ -133,35 +148,6 @@ public class GameLogic : MonoBehaviour {
         leftSolutionIcon.transform.localPosition = new Vector2(0, 20f);
         rightSolutionIcon.GetComponent<SpriteRenderer>().sortingLayerName = rightPillar.GetComponent<SpriteRenderer>().sortingLayerName;
         rightSolutionIcon.transform.localPosition = new Vector2(0, 20f);
-
-        foreach (Transform spotTransform in GameObject.Find("/Crowd").transform) {
-            GameObject spot = spotTransform.gameObject;
-            Spot spotComponent = spot.GetComponent<Spot>();
-
-            if (!spotComponent.assignedHuman)
-            {
-                GameObject newHuman = SpawnRandomHuman(spotTransform.position);
-                humans.Add(newHuman);
-                int count = 0;
-                while (!DilemnaMapper.IsSolvable(humans, currentSacrifice) && count < 1000)
-                {
-                    humans.Remove(newHuman);
-                    UnityEngine.Object.Destroy(newHuman);
-                    newHuman = SpawnRandomHuman(spotTransform.position);
-                    humans.Add(newHuman);
-                    count++;
-                }
-
-                if(count == 1000)
-                {
-                    Debug.LogError("Max attempt to generate a dude for request " + currentSacrifice.requestedObject + " and forbid " + currentSacrifice.forbiddenObject);
-                    humans.Remove(newHuman);
-                    UnityEngine.Object.Destroy(newHuman);
-                }
-
-                spotComponent.assignedHuman = newHuman;
-            }
-        }
     }
     
     public void Solve(string solution)

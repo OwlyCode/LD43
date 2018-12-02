@@ -4126,7 +4126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anger: 0.8
   angerShakingRatio: 2
-  patience: 6
+  patience: 12
 --- !u!4 &1943985106 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4148588234140356, guid: ac147fedb65904445bb120ee87fd348a,
